@@ -77,6 +77,7 @@ int main(int __attribute__((unused)) argc, char *argv[])
 		else
 			wait(&status);
 	}
+	free(buffer);
 	return (0);
 }
 

@@ -22,6 +22,7 @@ char *get_cmd(void)
 	len_cmd = getline(&buffer, &buffer_size, stdin);
 	if (len_cmd == -1)
 	{
+		free(buffer);
 		exit(1);
 	}
 	buffer[len_cmd - 1] = '\0';

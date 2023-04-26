@@ -1,5 +1,10 @@
-#include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
+#define MAX_LINE 1024
 /**
  * main - check code
  * @argc: argc
@@ -10,11 +15,12 @@ int main(int argc __attribute__((unused)), char *argv[])
 {
 	char line[MAX_LINE];
 	char *arg[MAX_LINE / 2 + 1];
+	int should_run = 1;
 	pid_t pid;
 	int status;
 
 
-	while (1)
+	while (should_run)
 	{
 		printf("#cisfun$ ");
 		fflush(stdout);

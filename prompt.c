@@ -13,7 +13,7 @@ int main(void)
 
 	while (1)
 	{
-		printf(PROMPT);
+		printf("%s", PROMPT);
 
 		chars_read = getline(&user_input, &input_size, stdin);
 

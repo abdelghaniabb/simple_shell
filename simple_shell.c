@@ -25,12 +25,6 @@ int _strcmp(char str1[], char str2[])
 		return (1);
 	}
 }
-void print_err(char *command, char *program)
-{
-	static int c = 1;
-
-	fprintf(stderr, "%s : %d : %s: not found\n", program, c++, command);
-}
 
 /**
   * get_cmd - get command
@@ -44,7 +38,7 @@ char *get_cmd(void)
 
 	if (buffer == NULL)
 	{
-		perror("Error:");
+		perror("");
 		return (NULL);
 	}
 	len_cmd = getline(&buffer, &buffer_size, stdin);
@@ -73,7 +67,7 @@ int execute_cmd(char *command, char *argv[])
 
 	if (pid == -1)
 	{
-		perror("Error:");
+		perror("");
 		return (-1);
 	}
 	if (pid == 0)
@@ -82,7 +76,7 @@ int execute_cmd(char *command, char *argv[])
 		list[1] = NULL;
 		if (execve(list[0], list, NULL) == -1)
 		{
-			print_err(command, argv[0]);
+			perror(argv[0]);
 			free(command);
 			exit(127);
 		}
@@ -92,7 +86,7 @@ int execute_cmd(char *command, char *argv[])
 		wait(&status);
 		if (status == -1)
 		{
-			perror("Error:");
+			perror("");
 			return (-1);
 		}
 	}

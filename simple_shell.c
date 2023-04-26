@@ -4,7 +4,11 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-char * get_cmd(void)
+/**
+  * get_cmd - get command
+  * Return: buffer
+  */
+char *get_cmd(void)
 {
 	size_t buffer_size = 256;
 	char *buffer = (char *) malloc(buffer_size * sizeof(char));
@@ -25,14 +29,18 @@ char * get_cmd(void)
 
 	return (buffer);
 }
-
+/**
+  * execute_cmd - execute cmd
+  * @command: command
+  * @argv: args
+  */
 void execute_cmd(char *command, char *argv[])
 {
 	pid_t pid;
 	char *list[2];
 
 	pid = fork();
-	
+
 	if (pid == -1)
 	{
 		perror("error");
@@ -48,9 +56,10 @@ void execute_cmd(char *command, char *argv[])
 			exit(1);
 		}
 	}
-	else 
+	else
 	{
 		wait(NULL);
+		printf("\n");
 	}
 }
 

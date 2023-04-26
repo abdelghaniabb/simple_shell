@@ -1,6 +1,10 @@
 #include "main.h"
 
 #define PROMPT "$ "
+/**
+ * main - check code
+ * Return: int
+ */
 int main(void)
 {
 	char *user_input = NULL;

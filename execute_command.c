@@ -1,4 +1,9 @@
 #include "main.h"
+/**
+ * execute_command - check
+ * @command: var1
+ * Return: void
+ */
 void execute_command(char *command)
 {
 	pid_t pid;
@@ -28,11 +33,6 @@ void execute_command(char *command)
 	}
 	else
 	{
-/**
- *		do {
- *			wpid = waitpid(pid, &status, 0);
- *		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
- */
-waitpid(pid, &status, 0);
+		waitpid(pid, &status, 0);
 	}
 }

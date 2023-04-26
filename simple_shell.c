@@ -4,6 +4,13 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+void print_err(char *command, char *program)
+{
+	static int c = 0;
+	c++;
+	fprintf(stderr, "%s : %d : %s: not found\n", program, c, command);
+}
+
 /**
   * get_cmd - get command
   * Return: buffer
@@ -23,7 +30,7 @@ char *get_cmd(void)
 	if (len_cmd == -1)
 	{
 		free(buffer);
-		exit(1);
+		exit(127);
 	}
 	buffer[len_cmd - 1] = '\0';
 
@@ -54,7 +61,7 @@ int execute_cmd(char *command, char *argv[])
 		list[1] = NULL;
 		if (execve(list[0], list, NULL) == -1)
 		{
-			perror(argv[0]);
+			print_err(command, argv[0]);
 			return (-1);
 		}
 	}
@@ -89,13 +96,12 @@ int main(int __attribute__((unused)) argc, char *argv[])
 		if (command == NULL)
 			return (1);
 		if (strcmp(command, "exit") == 0)
-			break;
+			exit(0);
 
 		exec_s = execute_cmd(command, argv);
 		if (exec_s == -1)
 		{
-			free(command);
-			return (1);
+			return (127);
 		}
 	}
 	free(command);

@@ -1,5 +1,11 @@
 #include <string.h>
-
+/**
+  * repalce_char - replace char with other
+  * @str: string
+  * @old_char: old character
+  * @new_char: new character
+  * Return: int
+  */
 size_t replace_char(char *str, char old_char, char new_char)
 {
 	size_t count = 0;

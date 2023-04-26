@@ -1,17 +1,19 @@
 #include "main.h"
-
+/**
+  * execute_command - command executer function
+  * @command: command to execute
+  */
 void execute_command(char *command)
 {
 	pid_t pid, wpid;
 	int status;
-	char *args[] = {command, NULL};;
+	char *args[] = {command, NULL};
 	char **environ;
-	
+
 	pid = fork();
-	
+
 	if (pid == 0)
 	{
-		//*args[] = {command, NULL};
 		if (execve(*args, args, environ) == -1)
 		{
 			perror("execve");
@@ -21,13 +23,12 @@ void execute_command(char *command)
 	else if (pid < 0)
 	{
 		perror("fork");
-		//exit(1);
+		exit(1);
 	}
 	else
 	{
-		do
-		{
+		do {
 			wpid = waitpid(pid, &status, 0);
-		}while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 }

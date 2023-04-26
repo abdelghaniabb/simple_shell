@@ -1,12 +1,14 @@
 #include "main.h"
-
 #define PROMPT "$ "
-int main()
+/**
+  * main - entry point to shell
+  * Return: error codes
+  */
+int main(void)
 {
 	char *user_input = NULL;
 	size_t input_size = 0;
 	size_t chars_read;
-	
 
 	while (1)
 	{
@@ -29,4 +31,5 @@ int main()
 		execute_command(user_input);
 	}
 	free(user_input);
+	return (0);
 }

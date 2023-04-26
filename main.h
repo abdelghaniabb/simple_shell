@@ -6,5 +6,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+int _strcmp(char[], char[]);
 
 #endif

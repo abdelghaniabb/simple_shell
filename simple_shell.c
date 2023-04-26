@@ -1,14 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
 
+
+int _strcmp(char str1[], char str2[])
+{
+	int i = 0;
+
+	while (str1[i] != '\0' && str1[i] == str2[i])
+	{
+		i++;
+	}
+	if (str1[i] == '\0' && str2[i] == '\0')
+	{
+		return (0);
+	}
+	else if (str1[i] < str2[i])
+	{
+		return (-1);
+	}
+	else
+	{
+		return (1);
+	}
+}
 void print_err(char *command, char *program)
 {
-	static int c = 0;
-	c++;
-	fprintf(stderr, "%s : %d : %s: not found\n", program, c, command);
+	static int c = 1;
+
+	fprintf(stderr, "%s : %d : %s: not found\n", program, c++, command);
 }
 
 /**
@@ -62,7 +83,8 @@ int execute_cmd(char *command, char *argv[])
 		if (execve(list[0], list, NULL) == -1)
 		{
 			print_err(command, argv[0]);
-			return (-1);
+			free(command);
+			exit(127);
 		}
 	}
 	else
@@ -95,14 +117,10 @@ int main(int __attribute__((unused)) argc, char *argv[])
 		command = get_cmd();
 		if (command == NULL)
 			return (1);
-		if (strcmp(command, "exit") == 0)
+		if (_strcmp(command, "exit") == 0)
 			exit(0);
 
-		exec_s = execute_cmd(command, argv);
-		if (exec_s == -1)
-		{
-			return (127);
-		}
+		execute_cmd(command, argv);
 	}
 	free(command);
 	return (0);

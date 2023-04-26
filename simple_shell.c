@@ -56,7 +56,7 @@ int main(int __attribute__((unused)) argc, char *argv[])
 	}
 	while (1)
 	{
-		printf("$ ");
+		printf("#cisfun$ ");
 		get_commande(buffer, &buffer_size);
 		if (strcmp(buffer, "exit") == 0)
 			break;

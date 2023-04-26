@@ -4,7 +4,7 @@
  * @command: var1
  * Return: void
  */
-void execute_command(char *command)
+void execute_command(char *command, char *argv)
 {
 	pid_t pid;
 /*	pid_t wpid;*/
@@ -14,7 +14,6 @@ void execute_command(char *command)
 
 	args[0] = command;
 	args[1] = NULL;
-
 	pid = fork();
 
 	if (pid == 0)
@@ -22,13 +21,13 @@ void execute_command(char *command)
 		/* *args[] = {command, NULL};*/
 		if (execve(*args, args, environ) == -1)
 		{
-			perror("./shell");
+			perror(argv);
 			exit(1);
 		}
 	}
 	else if (pid < 0)
 	{
-		perror("./shell");
+		perror(argv);
 		/*exit(1);*/
 	}
 	else
@@ -36,4 +35,5 @@ void execute_command(char *command)
 		/*waitpid(pid, &status, 0);*/
 		wait(NULL);
 	}
+	free(args);
 }

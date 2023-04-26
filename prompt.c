@@ -4,13 +4,16 @@
  * main - check code
  * Return: int
  */
-int main(void)
+int main(int argc, char *argv[])
 {
 	char *user_input = NULL;
 	size_t input_size = 0;
 	int chars_read;
 
-
+	if (argc >= 2)
+	{
+		printf("one argc\n");
+	}
 	while (1)
 	{
 		printf("%s", PROMPT);
@@ -22,14 +25,15 @@ int main(void)
 		{
 			printf("\n ");
 			/*free(user_input);*/
-			exit(EXIT_SUCCESS);
+			exit(1);
 		}
 
 		/*remove newline char*/
 		replace_char(user_input, '\n', '\0');
 
 		/****************************/
-		execute_command(user_input);
+		execute_command(user_input, argv[0]);
+
 	}
 /*	free(user_input);*/
 	return (0);

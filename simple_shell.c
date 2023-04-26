@@ -30,9 +30,9 @@ int execute_commande(char *command)
 	char *arg[2];
 	int len;
 
-	len = execve(arg[0], arg, NULL)
 	arg[0] = command;
 	arg[1] = NULL;
+	len = execve(arg[0], arg, NULL);
 	if (execve(arg[0], arg, NULL) == -1)
 		exit(1);
 	return (len);

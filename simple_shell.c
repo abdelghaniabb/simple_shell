@@ -33,7 +33,7 @@ char *get_cmd(void)
   * execute_cmd - execute cmd
   * @command: command
   * @argv: args
-  * Retunr: 1 success -1 fail
+  * Return: 1 success -1 fail
   */
 int execute_cmd(char *command, char *argv[])
 {
@@ -80,6 +80,7 @@ int main(int __attribute__((unused)) argc, char *argv[])
 {
 	char *command;
 	int exec_s;
+
 	while (1)
 	{
 		if (isatty(0))

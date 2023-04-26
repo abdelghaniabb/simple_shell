@@ -3,39 +3,55 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
-/**
-  * get_commande - get line from stdin
-  * @buffer: buffer
-  * @size: buffer size
-  * Return: length
-  */
-int get_commande(char *buffer, size_t *size)
+
+char * get_cmd(void)
 {
-	int len = 0;
+	size_t buffer_size = 256;
+	char *buffer = (char *) malloc(buffer_size * sizeof(char));
+	int len_cmd;
 
-	len = getline(&buffer, size, stdin);
-	if (len == -1)
+	if (buffer == NULL)
+	{
+		perror("Error memory allocation");
 		exit(1);
-	buffer[len - 1] = '\0';
+	}
+	len_cmd = getline(&buffer, &buffer_size, stdin);
 
-	return (len);
+	if (len_cmd == -1)
+	{
+		exit(1);
+	}
+	buffer[len_cmd - 1] = '\0';
+
+	return (buffer);
 }
-/**
-  * execute_commande - execve
-  * @command: command t oexecute
-  * Return: -1 if fail
-  */
-int execute_commande(char *command)
-{
-	char *arg[2];
-	int len;
 
-	arg[0] = command;
-	arg[1] = NULL;
-	len = execve(arg[0], arg, NULL);
-	if (execve(arg[0], arg, NULL) == -1)
+void execute_cmd(char *command, char *argv[])
+{
+	pid_t pid;
+	char *list[2];
+
+	pid = fork();
+	
+	if (pid == -1)
+	{
+		perror("error");
 		exit(1);
-	return (len);
+	}
+	if (pid == 0)
+	{
+		list[0] = command;
+		list[1] = NULL;
+		if (execve(list[0], list, NULL) == -1)
+		{
+			perror(argv[0]);
+			exit(1);
+		}
+	}
+	else 
+	{
+		wait(NULL);
+	}
 }
 
 /**
@@ -46,45 +62,17 @@ int execute_commande(char *command)
  */
 int main(int __attribute__((unused)) argc, char *argv[])
 {
-	char *buffer = NULL;
-	size_t buffer_size = 1024;
-	pid_t pid;
-	int status;
+	char *command;
 
-	buffer = (char *) malloc(sizeof(char) * buffer_size);
-	if (buffer == NULL)
-		exit(1);
-	if (!isatty(0))
-	{
-		get_commande(buffer, &buffer_size);
-		if (execute_commande(buffer) == -1)
-			perror(argv[0]), exit(1);
-	}
 	while (1)
 	{
-		printf("#cisfun$ ");
-		if (get_commande(buffer, &buffer_size) == -1)
-			return (-1);
-		if (strcmp(buffer, "exit") == 0)
+		if (isatty(0))
+			printf("$ ");
+		command = get_cmd();
+		if (strcmp(command, "exit") == 0)
 			break;
-		pid = fork();
-		if (pid < 0)
-		{
-			free(buffer);
-			perror(argv[0]);
-			exit(1);
-		}
-		else if (pid == 0)
-		{
-			if (execute_commande(buffer) == -1)
-			{
-				perror(argv[0]);
-				exit(1);
-			}
-		}
-		else
-			wait(&status);
+		execute_cmd(command, argv);
 	}
+	free(command);
 	return (0);
 }
-

@@ -1,12 +1,12 @@
 #include "main.h"
 
 #define PROMPT "$ "
-int main()
+int main(void)
 {
 	char *user_input = NULL;
 	size_t input_size = 0;
 	size_t chars_read;
-	
+
 
 	while (1)
 	{

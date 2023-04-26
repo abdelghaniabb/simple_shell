@@ -21,8 +21,8 @@ int main(void)
 		if (chars_read == -1)
 		{
 			printf("\n ");
-			free(user_input);
-			exit(0);
+			/*free(user_input);*/
+			exit(EXIT_SUCCESS);
 		}
 
 		/*remove newline char*/
@@ -31,6 +31,6 @@ int main(void)
 		/****************************/
 		execute_command(user_input);
 	}
-	free(user_input);
+/*	free(user_input);*/
 	return (0);
 }

@@ -70,14 +70,15 @@ int main(int __attribute__((unused)) argc, char *argv[])
 		{
 			if (execute_commande(buffer) == -1)
 			{
+				free(buffer);
 				perror(argv[0]);
 				exit(1);
 			}
+			free(buffer);
 		}
 		else
 			wait(&status);
 	}
-	free(buffer);
 	return (0);
 }
 

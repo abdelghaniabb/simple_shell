@@ -108,7 +108,6 @@ int execute_cmd(char *command, char *argv[])
 int main(int __attribute__((unused)) argc, char *argv[])
 {
 	char *command;
-	int exec_s;
 
 	while (1)
 	{

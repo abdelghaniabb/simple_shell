@@ -38,6 +38,7 @@ void execute_cmd(char *command, char *argv[])
 {
 	pid_t pid;
 	char *list[2];
+	int status;
 
 	pid = fork();
 
@@ -58,8 +59,12 @@ void execute_cmd(char *command, char *argv[])
 	}
 	else
 	{
-		wait(NULL);
-		printf("\n");
+		wait(&status);
+		if (status == -1)
+		{
+			perror("Error: ");
+			exit(1);
+		}
 	}
 }
 

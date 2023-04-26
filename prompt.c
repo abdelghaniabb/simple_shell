@@ -2,6 +2,8 @@
 
 /**
  * main - check code
+ * @argc: argc
+ * @argv: argv
  * Return: int
  */
 int main(int argc, char *argv[])

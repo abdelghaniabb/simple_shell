@@ -2,6 +2,7 @@
 /**
  * execute_command - check
  * @command: var1
+ * @argv: var2
  * Return: void
  */
 void execute_command(char *command, char *argv)

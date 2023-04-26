@@ -38,7 +38,6 @@ char *get_cmd(void)
 
 	if (buffer == NULL)
 	{
-		perror("");
 		return (NULL);
 	}
 	len_cmd = getline(&buffer, &buffer_size, stdin);
@@ -67,7 +66,6 @@ int execute_cmd(char *command, char *argv[])
 
 	if (pid == -1)
 	{
-		perror("");
 		free(command);
 		return (-1);
 	}
@@ -87,7 +85,6 @@ int execute_cmd(char *command, char *argv[])
 		wait(&status);
 		if (status == -1)
 		{
-			perror("");
 			free(command);
 			return (-1);
 		}

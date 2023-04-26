@@ -30,9 +30,10 @@ int execute_commande(char *command)
 	char *arg[2];
 	int len;
 
+	len = execve(arg[0], arg, NULL)
 	arg[0] = command;
 	arg[1] = NULL;
-	if ((len = execve(arg[0], arg, NULL)) == -1)
+	if (execve(arg[0], arg, NULL) == -1)
 		exit(1);
 	return (len);
 }
@@ -49,7 +50,7 @@ int main(int __attribute__((unused)) argc, char *argv[])
 	size_t buffer_size = 1024;
 	pid_t pid;
 	int status;
-	
+
 	buffer = (char *) malloc(sizeof(char) * buffer_size);
 	if (buffer == NULL)
 		exit(1);

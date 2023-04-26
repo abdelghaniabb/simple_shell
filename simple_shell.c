@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#define MAX_LINE 1024
 /**
  * main - check code
  * @argc: argc
@@ -13,26 +12,21 @@
  */
 int main(int argc __attribute__((unused)), char *argv[])
 {
-	char line[MAX_LINE];
-	char *arg[MAX_LINE / 2 + 1];
-	int should_run = 1;
+	char *buffer;
+	size_t buffer_size = 1024;
+	size_t len;
+	char *arg[2];
 	pid_t pid;
 	int status;
 
-
-	while (should_run)
+	buffer = (char *) malloc(sizeof(char) * 1024);
+	while (1)
 	{
 		printf("#cisfun$ ");
-		fflush(stdout);
-		fgets(line, MAX_LINE, stdin);
-		if (line[strlen(line) - 1] == '\n')
-			line[strlen(line) - 1] = '\0';
-
-		if (strcmp(line, "exit") == 0)
-		{
-			should_run = 0;
+		len = getline(&buffer, &buffer_size, stdin);
+		buffer[len - 1] = '\0';
+		if (strcmp(buffer, "exit") == 0)
 			break;
-		}
 		pid = fork();
 		if (pid < 0)
 		{
@@ -41,7 +35,7 @@ int main(int argc __attribute__((unused)), char *argv[])
 		}
 		else if (pid == 0)
 		{
-			arg[0] = line;
+			arg[0] = buffer;
 			arg[1] = NULL;
 			if (execve(arg[0], arg, NULL) == -1)
 			{

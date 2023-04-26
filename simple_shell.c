@@ -3,6 +3,34 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+/**
+  * get_commande - get line from stdin
+  * @buffer: buffer
+  * @size: buffer size
+  * Return: length
+  */
+size_t get_commande(char *buffer, size_t *size)
+{
+	size_t len = 0;
+
+	len = getline(&buffer, size, stdin);
+	buffer[len - 1] = '\0';
+
+	return (len);
+}
+/**
+  * execute_commande - execve
+  * @command: command t oexecute
+  * Return: -1 if fail
+  */
+int execute_commande(char *command)
+{
+	char *arg[2];
+
+	arg[0] = command;
+	arg[1] = NULL;
+	return (execve(arg[0], arg, NULL));
+}
 
 /**
  * main - check code
@@ -10,21 +38,27 @@
  * @argv: argv
  * Return: int
  */
-int main(int argc __attribute__((unused)), char *argv[])
+int main(int __attribute__((unused)) argc, char *argv[])
 {
 	char *buffer;
 	size_t buffer_size = 1024;
-	size_t len;
-	char *arg[2];
 	pid_t pid;
 	int status;
 
 	buffer = (char *) malloc(sizeof(char) * 1024);
+	if (!isatty(0))
+	{
+		get_commande(buffer, &buffer_size);
+		if (execute_commande(buffer) == -1)
+		{
+			perror(argv[0]);
+			exit(1);
+		}
+	}
 	while (1)
 	{
 		printf("#cisfun$ ");
-		len = getline(&buffer, &buffer_size, stdin);
-		buffer[len - 1] = '\0';
+		get_commande(buffer, &buffer_size);
 		if (strcmp(buffer, "exit") == 0)
 			break;
 		pid = fork();
@@ -35,9 +69,7 @@ int main(int argc __attribute__((unused)), char *argv[])
 		}
 		else if (pid == 0)
 		{
-			arg[0] = buffer;
-			arg[1] = NULL;
-			if (execve(arg[0], arg, NULL) == -1)
+			if (execute_commande(buffer) == -1)
 			{
 				perror(argv[0]);
 				exit(1);

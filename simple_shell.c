@@ -45,15 +45,14 @@ int main(int __attribute__((unused)) argc, char *argv[])
 	pid_t pid;
 	int status;
 
-	buffer = (char *) malloc(sizeof(char) * 1024);
+	buffer = (char *) malloc(sizeof(char) * buffer_size);
+	if (buffer == NULL)
+		exit(1);
 	if (!isatty(0))
 	{
 		get_commande(buffer, &buffer_size);
 		if (execute_commande(buffer) == -1)
-		{
-			perror(argv[0]);
-			exit(1);
-		}
+			perror(argv[0]), exit(1);
 	}
 	while (1)
 	{
@@ -78,7 +77,6 @@ int main(int __attribute__((unused)) argc, char *argv[])
 		else
 			wait(&status);
 	}
-	free(buffer);
 	return (0);
 }
 

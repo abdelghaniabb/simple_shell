@@ -22,7 +22,7 @@ void execute_command(char *command)
 		/* *args[] = {command, NULL};*/
 		if (execve(*args, args, environ) == -1)
 		{
-			perror("execve");
+			perror("./shell");
 			exit(1);
 		}
 	}

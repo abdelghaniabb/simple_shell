@@ -17,10 +17,9 @@ char *get_cmd(void)
 	if (buffer == NULL)
 	{
 		perror("Error:");
-		exit(1);
+		return (NULL);
 	}
 	len_cmd = getline(&buffer, &buffer_size, stdin);
-
 	if (len_cmd == -1)
 	{
 		exit(1);
@@ -33,8 +32,9 @@ char *get_cmd(void)
   * execute_cmd - execute cmd
   * @command: command
   * @argv: args
+  * Retunr: 1 success -1 fail
   */
-void execute_cmd(char *command, char *argv[])
+int execute_cmd(char *command, char *argv[])
 {
 	pid_t pid;
 	char *list[2];
@@ -45,7 +45,7 @@ void execute_cmd(char *command, char *argv[])
 	if (pid == -1)
 	{
 		perror("Error:");
-		exit(1);
+		return (-1);
 	}
 	if (pid == 0)
 	{
@@ -54,7 +54,7 @@ void execute_cmd(char *command, char *argv[])
 		if (execve(list[0], list, NULL) == -1)
 		{
 			perror(argv[0]);
-			exit(1);
+			return (-1);
 		}
 	}
 	else
@@ -63,9 +63,10 @@ void execute_cmd(char *command, char *argv[])
 		if (status == -1)
 		{
 			perror("Error:");
-			exit(1);
+			return (-1);
 		}
 	}
+	return (1);
 }
 
 /**
@@ -77,15 +78,23 @@ void execute_cmd(char *command, char *argv[])
 int main(int __attribute__((unused)) argc, char *argv[])
 {
 	char *command;
-
+	int exec_s;
 	while (1)
 	{
 		if (isatty(0))
 			printf("$ ");
 		command = get_cmd();
+		if (command == NULL)
+			return (1);
 		if (strcmp(command, "exit") == 0)
 			break;
-		execute_cmd(command, argv);
+
+		exec_s = execute_cmd(command, argv);
+		if (exec_s == -1)
+		{
+			free(command);
+			return (1);
+		}
 	}
 	free(command);
 	return (0);

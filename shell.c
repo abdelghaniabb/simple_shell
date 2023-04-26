@@ -21,7 +21,8 @@ int main(int __attribute__((unused)) argc, char *av[])
 		if (isatty(STDIN_FILENO) == 1 && isatty(STDOUT_FILENO) == 1)
 			write(1, "$ ", 2);
 		length = getline(&buffer, &size, stdin);
-		buffer[length - 1] = '\0';
+		if (buffer[length - 1] == '\n')
+			buffer[length - 1] = '\0';
 		if (_strcmp(buffer, "exit") == 0)
 		{
 			free(buffer);
@@ -38,11 +39,10 @@ int main(int __attribute__((unused)) argc, char *av[])
 		if (pid == 0)
 		{
 			list[0] = buffer, list[1] = NULL;
-			if (execve(list[0], list, NULL) == -1)
-			{
-				free(buffer);
-				perror(av[0]);
-			}
+			execve(list[0], list, NULL);
+			perror(av[0]);
+			free(buffer);
+			exit(98);
 		}
 		else
 		{

@@ -18,16 +18,17 @@ int main(int __attribute__((unused)) argc, char *av[])
 	buffer = (char *) malloc(sizeof(char) * 1024);
 	while (1)
 	{
-		if (isatty(0))
+		if (isatty(STDIN_FILENO) == 1 && isatty(STDOUT_FILENO) == 1)
 			write(1, "$ ", 2);
 		length = getline(&buffer, &size, stdin);
 		buffer[length - 1] = '\0';
 		if (_strcmp(buffer, "exit") == 0)
-			exit(0);
-		if (length == -1)
 		{
+			free(buffer);
 			exit(0);
 		}
+		if (length < 0)
+			break;
 		pid = fork();
 		if (pid == -1)
 		{
@@ -48,5 +49,8 @@ int main(int __attribute__((unused)) argc, char *av[])
 			wait(&status);
 		}
 	}
+	if (length < 0 && isatty(STDIN_FILENO) == 1 && isatty(STDOUT_FILENO) == 1)
+		write(STDERR_FILENO, "\n", 1);
+	free(buffer);
 	return (0);
 }

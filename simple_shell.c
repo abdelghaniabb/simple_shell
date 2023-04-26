@@ -6,10 +6,17 @@
 
 #define MAX_LINE 1024
 
+
+/**
+ * main - check code
+ * @argc: argc
+ * @argv: argv
+ * Return: int
+ */
 int main(int argc, char *argv[])
 {
 	char line[MAX_LINE];
-	char *arg[MAX_LINE/2 + 1];
+	char *arg[MAX_LINE / 2 + 1];
 	int should_run = 1;
 	pid_t pid;
 	int status;
@@ -21,9 +28,9 @@ int main(int argc, char *argv[])
 		printf("#cisfun$ ");
 		fflush(stdout);
 		fgets(line, MAX_LINE, stdin);
-		if (line[strlen(line)-1] == '\n')
+		if (line[strlen(line) - 1] == '\n')
 		{
-			line[strlen(line)-1] = '\0';
+			line[strlen(line) - 1] = '\0';
 		}
 		if (strcmp(line, "exit") == 0)
 		{
@@ -53,3 +60,4 @@ int main(int argc, char *argv[])
 	}
 	return (0);
 }
+

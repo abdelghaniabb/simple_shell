@@ -6,7 +6,17 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include "main.h"
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+#define MAX_LINE 1024
+void waitpid(int status, pid_t pid):
+
 
 extern char **environ;
 #define PROMPT "#cisfun$ "

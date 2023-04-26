@@ -43,7 +43,6 @@ int main(int __attribute__((unused)) argc, char *argv[])
 	char *buffer;
 	size_t buffer_size = 1024;
 	pid_t pid;
-	int status;
 
 	buffer = (char *) malloc(sizeof(char) * 1024);
 	if (!isatty(0))
@@ -78,6 +77,7 @@ int main(int __attribute__((unused)) argc, char *argv[])
 		else
 			waitpid(pid, &status, 0);
 	}
+	free(buffer);
 	return (0);
 }
 

@@ -8,7 +8,7 @@ void execute_command(char *command)
 {
 	pid_t pid;
 /*	pid_t wpid;*/
-	int status;
+/*	int status;*/
 	char **args = malloc(sizeof(char *) * 2);
 	/*char **environ;*/
 
@@ -28,11 +28,12 @@ void execute_command(char *command)
 	}
 	else if (pid < 0)
 	{
-		perror("fork");
+		perror("./shell");
 		/*exit(1);*/
 	}
 	else
 	{
-		waitpid(pid, &status, 0);
+		/*waitpid(pid, &status, 0);*/
+		wait(NULL);
 	}
 }

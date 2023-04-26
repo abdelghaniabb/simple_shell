@@ -32,4 +32,5 @@ int main(void)
 		execute_command(user_input);
 	}
 	free(user_input);
+	return (0);
 }

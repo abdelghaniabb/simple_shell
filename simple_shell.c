@@ -102,7 +102,7 @@ int main(int __attribute__((unused)) argc, char *argv[])
 	while (1)
 	{
 		if (isatty(0))
-			printf("$ ");
+			write(1, "$ ", 2);
 		command = get_cmd();
 		if (command == NULL)
 			return (1);

@@ -9,11 +9,13 @@
   * @size: buffer size
   * Return: length
   */
-size_t get_commande(char *buffer, size_t *size)
+int get_commande(char *buffer, size_t *size)
 {
-	size_t len = 0;
+	int len = 0;
 
 	len = getline(&buffer, size, stdin);
+	if (len == -1)
+		exit(1);
 	buffer[len - 1] = '\0';
 
 	return (len);
@@ -26,10 +28,13 @@ size_t get_commande(char *buffer, size_t *size)
 int execute_commande(char *command)
 {
 	char *arg[2];
+	int len;
 
 	arg[0] = command;
 	arg[1] = NULL;
-	return (execve(arg[0], arg, NULL));
+	if ((len = execve(arg[0], arg, NULL)) == -1)
+		exit(1);
+	return (len);
 }
 
 /**
@@ -57,7 +62,8 @@ int main(int __attribute__((unused)) argc, char *argv[])
 	while (1)
 	{
 		printf("#cisfun$ ");
-		get_commande(buffer, &buffer_size);
+		if (get_commande(buffer, &buffer_size) == -1)
+			return (-1);
 		if (strcmp(buffer, "exit") == 0)
 			break;
 		pid = fork();

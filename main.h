@@ -15,7 +15,7 @@
 #include <sys/wait.h>
 
 #define MAX_LINE 1024
-void waitpid(int status, pid_t pid):
+
 
 
 extern char **environ;

@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
-
-#define MAX_LINE 1024
-
+#include "main.h"
 
 /**
  * main - check code
@@ -13,25 +6,22 @@
  * @argv: argv
  * Return: int
  */
-int main(int argc, char *argv[])
+int main(int argc __attribute__((unused)), char *argv[])
 {
 	char line[MAX_LINE];
 	char *arg[MAX_LINE / 2 + 1];
-	int should_run = 1;
 	pid_t pid;
 	int status;
 
-	if (argc > 1)
-		printf("one arg");
-	while (should_run)
+
+	while (1)
 	{
 		printf("#cisfun$ ");
 		fflush(stdout);
 		fgets(line, MAX_LINE, stdin);
 		if (line[strlen(line) - 1] == '\n')
-		{
 			line[strlen(line) - 1] = '\0';
-		}
+
 		if (strcmp(line, "exit") == 0)
 		{
 			should_run = 0;
@@ -54,9 +44,7 @@ int main(int argc, char *argv[])
 			}
 		}
 		else
-		{
 			waitpid(pid, &status, 0);
-		}
 	}
 	return (0);
 }

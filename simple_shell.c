@@ -40,11 +40,11 @@ int execute_commande(char *command)
  */
 int main(int __attribute__((unused)) argc, char *argv[])
 {
-	char *buffer;
+	char *buffer = NULL;
 	size_t buffer_size = 1024;
 	pid_t pid;
 	int status;
-
+	
 	buffer = (char *) malloc(sizeof(char) * buffer_size);
 	if (buffer == NULL)
 		exit(1);
@@ -56,13 +56,14 @@ int main(int __attribute__((unused)) argc, char *argv[])
 	}
 	while (1)
 	{
-		printf("#cisfun$ ");
+		printf("$ ");
 		get_commande(buffer, &buffer_size);
 		if (strcmp(buffer, "exit") == 0)
 			break;
 		pid = fork();
 		if (pid < 0)
 		{
+			free(buffer);
 			perror(argv[0]);
 			exit(1);
 		}
@@ -70,11 +71,9 @@ int main(int __attribute__((unused)) argc, char *argv[])
 		{
 			if (execute_commande(buffer) == -1)
 			{
-				free(buffer);
 				perror(argv[0]);
 				exit(1);
 			}
-			free(buffer);
 		}
 		else
 			wait(&status);

@@ -5,7 +5,7 @@ int main(void)
 {
 	char *user_input = NULL;
 	size_t input_size = 0;
-	size_t chars_read;
+	int chars_read;
 
 
 	while (1)

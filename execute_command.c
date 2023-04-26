@@ -1,11 +1,15 @@
 #include "main.h"
-
+extern char **environ;
 void execute_command(char *command)
 {
-	pid_t pid, wpid;
+	pid_t pid;
+/*	pid_t wpid;*/
 	int status;
-	char *args[] = {command, NULL};
-	char **environ;
+	char **args = malloc(sizeof(char*) * 2);
+	/*char **environ;*/
+
+	args[0] = command;
+	args[1] = NULL;
 
 	pid = fork();
 
@@ -25,8 +29,10 @@ void execute_command(char *command)
 	}
 	else
 	{
-		do {
+/*		do {
 			wpid = waitpid(pid, &status, 0);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+*/
+waitpid(pid, &status, 0);
 	}
 }

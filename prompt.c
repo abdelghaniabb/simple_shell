@@ -1,6 +1,5 @@
 #include "main.h"
 
-#define PROMPT "#cisfun$ "
 /**
  * main - check code
  * Return: int

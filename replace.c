@@ -1,4 +1,3 @@
-
 #include <string.h>
 /**
  * replace_char - replace char with other

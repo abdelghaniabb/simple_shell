@@ -68,6 +68,7 @@ int execute_cmd(char *command, char *argv[])
 	if (pid == -1)
 	{
 		perror("");
+		free(command);
 		return (-1);
 	}
 	if (pid == 0)
@@ -78,7 +79,7 @@ int execute_cmd(char *command, char *argv[])
 		{
 			perror(argv[0]);
 			free(command);
-			exit(127);
+			return (127);
 		}
 	}
 	else
@@ -87,6 +88,7 @@ int execute_cmd(char *command, char *argv[])
 		if (status == -1)
 		{
 			perror("");
+			free(command);
 			return (-1);
 		}
 	}

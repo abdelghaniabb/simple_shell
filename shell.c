@@ -1,5 +1,6 @@
 #include "main.h"
 
+
 /**
   * main - entry point to shell
   * @argc: arg number
@@ -9,48 +10,56 @@
 
 int main(int __attribute__((unused)) argc, char *av[])
 {
-	char *buffer;
+	char *buffer = NULL;
 	char *list[2];
-	int length, status;
-	size_t size = 1024;
+	int status;
+	size_t buf_s = 0;
+	ssize_t len = 0;
 	pid_t pid;
-
-	buffer = (char *) malloc(sizeof(char) * 1024);
+	
 	while (1)
 	{
-		if (isatty(STDIN_FILENO) == 1 && isatty(STDOUT_FILENO) == 1)
-			write(1, "$ ", 2);
-		length = getline(&buffer, &size, stdin);
-		if (buffer[length - 1] == '\n')
-			buffer[length - 1] = '\0';
-		if (_strcmp(buffer, "exit") == 0)
-		{
+		write(STDOUT_FILENO, "#cisfun$ ", 8);
+		len = getline(&buffer, &buf_s, stdin);
+		if (*buffer == '\n')
 			free(buffer);
-			exit(0);
-		}
-		if (length < 0)
-			break;
-		pid = fork();
-		if (pid == -1)
-		{
-			perror(av[0]);
-			return (1);
-		}
-		if (pid == 0)
-		{
-			list[0] = buffer, list[1] = NULL;
-			execve(list[0], list, NULL);
-			perror(av[0]);
-			free(buffer);
-			exit(98);
-		}
 		else
 		{
-			wait(&status);
+			buffer[len - 1] = '\0';
+			pid = fork();
+
+			if (pid < 0)
+			{
+				perror("Error: ");
+				free(buffer);
+				exit(8);
+			}
+			else if (pid == 0)
+			{
+				list[0] = buffer, list[1] = NULL;
+				if (execve(list[0], list, NULL) < -0)
+				{
+					perror(av[0]);
+					free(buffer);
+					exit(8);
+				}
+			}
+			else
+			{
+				wait(&status);
+				if (status < 0)
+				{
+					free(buffer);
+					exit(8);
+				}
+				free(buffer);
+			}
+			fflush(stdin);
+			buffer = NULL, buf_s = 0;
 		}
+		
 	}
-	if (length < 0 && isatty(STDIN_FILENO) == 1 && isatty(STDOUT_FILENO) == 1)
-		write(STDERR_FILENO, "\n", 1);
-	free(buffer);
+	if (len == -1)
+		return (EXIT_FAILURE);
 	return (0);
 }

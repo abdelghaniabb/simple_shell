@@ -24,7 +24,7 @@ void _EOF(char *buffer)
   * @av: value
   * @c: counter
   */
-void execute_cmd(char *buffer, char *av, int c)
+void execute_cmd(char *buffer, char *av, int __attribute__((unused)) c)
 {
 	char *list[2];
 	pid_t pid;
@@ -40,7 +40,7 @@ void execute_cmd(char *buffer, char *av, int c)
 	{
 		list[0] = buffer, list[1] = NULL;
 		if (execve(list[0], list, NULL) < 0)
-			error(av, c, buffer), free(buffer), exit(8);
+			perror(av), free(buffer), exit(8);
 	}
 	else
 	{

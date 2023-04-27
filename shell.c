@@ -39,7 +39,7 @@ void execute_cmd(char *buffer, char *av, int c)
 	else if (pid == 0)
 	{
 		list[0] = buffer, list[1] = NULL;
-		if (execve(list[0], list, NULL) < -0)
+		if (execve(list[0], list, NULL) < 0)
 			error(av, c, buffer), free(buffer), exit(8);
 	}
 	else
@@ -73,11 +73,11 @@ int main(int __attribute__((unused)) argc, char *av[])
 			_EOF(buffer);
 		if (*buffer == '\n')
 			free(buffer);
-		buffer[len - 1] = '\0';
-		if (_strcmp(buffer, "exit") == 1)
-			free(buffer), exit(0);
 		else
 		{
+			buffer[len - 1] = '\0';
+			if (_strcmp(buffer, "exit") == 1)
+				free(buffer), exit(0);
 			counter++;
 			execute_cmd(buffer, av[0], counter);
 			fflush(stdin), buffer = NULL, buf_s = 0;

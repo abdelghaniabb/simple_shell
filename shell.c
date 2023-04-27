@@ -10,10 +10,10 @@
 
 int main(int __attribute__((unused)) argc, char *av[])
 {
-	char *buffer = NULL;
-	char *list[2];
+	char *buffer = NULL, *list[2];
 	int status;
-	size_t buf_s = 0, ssize_t len = 0;
+	size_t buf_s = 0;
+	ssize_t len = 0;
 	pid_t pid;
 
 	while (1)

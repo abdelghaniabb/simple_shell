@@ -76,8 +76,6 @@ int main(int __attribute__((unused)) argc, char *av[])
 		else
 		{
 			buffer[len - 1] = '\0';
-			if (_strcmp(buffer, "exit") == 1)
-				free(buffer), exit(0);
 			counter++;
 			execute_cmd(buffer, av[0], counter);
 			fflush(stdin), buffer = NULL, buf_s = 0;

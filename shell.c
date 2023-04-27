@@ -22,8 +22,9 @@ void _EOF(char *buffer)
   * execute_cmd - exeuc
   * @buffer: bfr
   * @av: value
+  * @c: counter
   */
-void execute_cmd(char *buffer, char *av)
+void execute_cmd(char *buffer, char *av, int c)
 {
 	char *list[2];
 	pid_t pid;
@@ -39,7 +40,7 @@ void execute_cmd(char *buffer, char *av)
 	{
 		list[0] = buffer, list[1] = NULL;
 		if (execve(list[0], list, NULL) < -0)
-			perror(av), free(buffer), exit(8);
+			error(av, c, buffer), free(buffer), exit(8);
 	}
 	else
 	{
@@ -48,7 +49,6 @@ void execute_cmd(char *buffer, char *av)
 			free(buffer), exit(8);
 		free(buffer);
 	}
-
 }
 
 /**
@@ -63,6 +63,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 	char *buffer = NULL;
 	size_t buf_s = 0;
 	ssize_t len = 0;
+	int counter = 0;
 
 	while (1)
 	{
@@ -77,7 +78,8 @@ int main(int __attribute__((unused)) argc, char *av[])
 			free(buffer), exit(0);
 		else
 		{
-			execute_cmd(buffer, av[0]);
+			counter++;
+			execute_cmd(buffer, av[0], counter);
 			fflush(stdin), buffer = NULL, buf_s = 0;
 		}
 	}

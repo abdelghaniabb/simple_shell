@@ -5,7 +5,5 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
-
-int _strcmp(char[], char[]);
-
+int _strcmp(char *s1, char *s2);
 #endif

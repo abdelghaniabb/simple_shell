@@ -21,6 +21,7 @@ void _EOF(char *buffer)
 /**
   * execute_cmd - exeuc
   * @buffer: bfr
+  * @av: value
   */
 void execute_cmd(char *buffer, char *av)
 {
@@ -53,7 +54,7 @@ void execute_cmd(char *buffer, char *av)
 /**
   * main - entry point to shell
   * @argc: arg number
-  * @av: argv
+  * @av: arg value
   * Return: -1 | 1
   */
 
@@ -71,9 +72,11 @@ int main(int __attribute__((unused)) argc, char *av[])
 			_EOF(buffer);
 		if (*buffer == '\n')
 			free(buffer);
+		buffer[len - 1] = '\0';
+		if (_strcmp(buffer, "exit") == 1)
+			free(buffer), exit(0);
 		else
 		{
-			buffer[len - 1] = '\0';
 			execute_cmd(buffer, av[0]);
 			fflush(stdin), buffer = NULL, buf_s = 0;
 		}

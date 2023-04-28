@@ -1,12 +1,5 @@
 #include "main.h"
 
-
-
-
-
-
-
-
 /**
   * main - entry point to shell
   * @argc: arg number
@@ -16,11 +9,9 @@
 
 int main(int __attribute__((unused)) argc, char *av[])
 {
-	char *buffer = NULL, *path_env, *path;
-	size_t buf_s = 0;
-	ssize_t len = 0;
+	char *buffer = NULL, *path_env, *path, **tokens;
+	size_t buf_s = 0, len = 0;
 	int flag = 0;
-	char **tokens;
 	char st = 0;
 
 	while (1)

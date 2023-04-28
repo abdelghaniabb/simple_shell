@@ -105,16 +105,15 @@ int main(int __attribute__((unused)) argc, char *av[])
 		else
 		{
 			buffer[len - 1] = '\0';
-			if (strcmp(buffer, "exit") == 0)
+			tokens = make_tokens(buffer);
+			if (strcmp(tokens[0], "exit") == 0)
 			{
+				printf("exit");
 				free(buffer);
 				exit(1);
 			}
-			tokens = make_tokens(buffer);
 			if (tokens[0] == NULL)
 			{
-				free(tokens);
-				free(buffer);
 				continue;
 			}
 			execute_cmd(tokens, av[0]);

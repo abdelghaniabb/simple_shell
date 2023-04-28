@@ -49,7 +49,7 @@ void _EOF(char *buffer)
   * @av: value
   * Return 0 - 1
   */
-int execute_cmd(char **tokens, char *av)
+int execute_cmd(char **tokens, char *av, char *path)
 {
 	pid_t pid;
 	int status;
@@ -62,7 +62,7 @@ int execute_cmd(char **tokens, char *av)
 	}
 	else if (pid == 0)
 	{
-		if (execve(tokens[0], tokens, environ) == -1)
+		if (execve(path, tokens, environ) == -1)
 		{
 			perror(av);
 			exit(2);
@@ -82,9 +82,10 @@ int execute_cmd(char **tokens, char *av)
 
 int main(int __attribute__((unused)) argc, char *av[])
 {
-	char *buffer = NULL;
+	char *buffer = NULL, *path_env, *path;
 	size_t buf_s = 0;
 	ssize_t len = 0;
+	int flag = 0;
 	char **tokens;
 	char st = 0;
 
@@ -121,10 +122,18 @@ int main(int __attribute__((unused)) argc, char *av[])
 			print_env();
 			continue;
 		}
-		st = execute_cmd(tokens, av[0]);
+		path_env = _getenv("PATH");
+		path = search_command(tokens[0], path, path_env);
+		if (path == NULL)
+			path = tokens[0];
+		else
+			flag = 1;
+		st = execute_cmd(tokens, av[0], path);
 		free(buffer);
 		buffer = NULL, buf_s = 0;
 		free(tokens);
+		if (flag == 1)
+			free(path);
 	}
 	return (0);
 }

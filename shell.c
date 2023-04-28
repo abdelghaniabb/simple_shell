@@ -93,7 +93,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
+		if (isatty(0))
 			write(STDOUT_FILENO, "#meisfun$ ", 9);
 		len = getline(&buffer, &buf_s, stdin);
 		if (len == EOF)

@@ -87,6 +87,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 	size_t buf_s = 0;
 	ssize_t len = 0;
 	char **tokens;
+
 	while (1)
 	{
 		if (isatty(0))
@@ -112,10 +113,9 @@ int main(int __attribute__((unused)) argc, char *av[])
 		{
 			free(buffer);
 			free(tokens);
-			exit(0);
+			_exit(EXIT_SUCCESS);
 		}
-		if (execute_cmd(tokens, av[0]) == 0)
-			exit(2);
+		execute_cmd(tokens, av[0]);
 		free(buffer);
 		buffer = NULL, buf_s = 0;
 		free(tokens);

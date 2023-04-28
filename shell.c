@@ -53,7 +53,10 @@ void execute_cmd(char **tokens, char *av)
 {
 	pid_t pid;
 	int status;
-	
+	char *l[3];
+
+	l[0] = tokens[0];
+	l[1] = NULL;
 	pid = fork();
 	if (pid < 0)
 	{
@@ -62,7 +65,7 @@ void execute_cmd(char **tokens, char *av)
 	}
 	else if (pid == 0)
 	{
-		if (execve(tokens[0], tokens, NULL) < 0)
+		if (execve(l[0], l, NULL) < 0)
 			perror(av), free(tokens), exit(8);
 	}
 	else

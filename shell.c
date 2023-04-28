@@ -1,77 +1,11 @@
 #include "main.h"
 
 
-char **make_tokens(char *string)
-{
-	char **tokens;
-	char *token;
-	int i = 0;
 
-	tokens = (char **)malloc(sizeof(char) * 1024);
-	if (tokens == NULL)
-	{
-		exit(1);
-	}
-	token = strtok(string, "\n\t\r ");
-	if (token == NULL)
-		return (NULL);
-	while (token != NULL)
-	{
-		tokens[i++] = token;
-		token = strtok(NULL, "\n\t\r ");
-	}
-	tokens[i] = NULL;
 
-	return (tokens);
-}
 
-/**
- * _EOF - buffer is EOF
- * @buffer: string.
- */
-void _EOF(char *buffer)
-{
-	if (buffer)
-	{
-		free(buffer);
-		buffer = NULL;
-	}
 
-	if (isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, "\n", 1);
-	free(buffer);
-	exit(0);
-}
 
-/**
-  * execute_cmd - exeuc
-  * @buffer: bfr
-  * @av: value
-  * Return 0 - 1
-  */
-int execute_cmd(char **tokens, char *av, char *path)
-{
-	pid_t pid;
-	int status;
-
-	pid = fork();
-	if (pid < 0)
-	{
-		perror(av);
-		exit(1);
-	}
-	else if (pid == 0)
-	{
-		if (execve(path, tokens, environ) == -1)
-		{
-			perror(av);
-			exit(2);
-		}
-	}
-	else
-		wait(&status);
-	return WEXITSTATUS(status);
-}
 
 /**
   * main - entry point to shell

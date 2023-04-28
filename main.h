@@ -16,4 +16,7 @@ void error(char *name, int counter, char *command);
 int is_whitespace(char *c);
 unsigned int _strlen(char *s);
 void print_env(void);
+char **make_tokens(char *string);
+void _EOF(char *buffer);
+int execute_cmd(char **tokens, char *av, char *path);
 #endif

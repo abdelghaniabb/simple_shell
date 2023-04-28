@@ -58,7 +58,7 @@ int execute_cmd(char **tokens, char *av)
 	if (pid < 0)
 	{
 		perror(av);
-		exit(2);
+		exit(1);
 	}
 	else if (pid == 0)
 	{
@@ -70,7 +70,7 @@ int execute_cmd(char **tokens, char *av)
 	}
 	else
 		wait(&status);
-	return (0);
+	return WEXITSTATUS(status);
 }
 
 /**
@@ -86,6 +86,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 	size_t buf_s = 0;
 	ssize_t len = 0;
 	char **tokens;
+	char st = 0;
 
 	while (1)
 	{
@@ -112,7 +113,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 		{
 			free(buffer);
 			free(tokens);
-			exit(0);
+			exit(st);
 		}
 		if (_strcmp(tokens[0], "env") == 0)
 		{
@@ -120,7 +121,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 			print_env();
 			continue;
 		}
-		execute_cmd(tokens, av[0]);
+		st = execute_cmd(tokens, av[0]);
 		free(buffer);
 		buffer = NULL, buf_s = 0;
 		free(tokens);

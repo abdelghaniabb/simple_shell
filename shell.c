@@ -103,7 +103,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 		}
 		buffer[len - 1] = '\0';
 		tokens = make_tokens(buffer);
-		if (tokens[0] == NULL)
+		if (*tokens == NULL)
 		{
 			continue;
 		}

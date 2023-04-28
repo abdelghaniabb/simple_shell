@@ -9,7 +9,6 @@ char **make_tokens(char *string)
 	tokens = (char **)malloc(sizeof(char) * 1024);
 	if (tokens == NULL)
 	{
-		perror("Error");
 		exit(1);
 	}
 	token = strtok(string, " ");
@@ -75,6 +74,7 @@ int execute_cmd(char *tokens, char *av)
 	else
 	{
 		wait(&status);
+		free(tokens);
 	}
 	return (1);
 }
@@ -113,7 +113,9 @@ int main(int __attribute__((unused)) argc, char *av[])
 		{
 			buffer[len - 1] = '\0';
 			if (execute_cmd(buffer, av[0]) == 0)
+			{
 				exit(1);
+			}
 			fflush(stdin), buffer = NULL, buf_s = 0;
 		}
 	}

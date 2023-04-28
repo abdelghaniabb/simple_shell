@@ -105,7 +105,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 			continue;
 		}
 		buffer[len - 1] = '\0';
-		if (buffer == ' ')
+		if (*buffer == ' ')
 			continue;
 		tokens = make_tokens(buffer);
 		if (strcmp(tokens[0], "exit") == 0)

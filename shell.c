@@ -56,7 +56,7 @@ int execute_cmd(char **tokens, char *av)
 	pid = fork();
 	if (pid < 0)
 	{
-		perror("Error: ");
+		perror(av);
 		exit(1);
 	}
 	else if (pid == 0)
@@ -64,14 +64,14 @@ int execute_cmd(char **tokens, char *av)
 		if (execve(tokens[0], tokens, NULL) < 0)
 		{
 			perror(av);
-			return (0);
+			return (2);
 		}
 	}
 	else
 	{
 		wait(&status);
 	}
-	return (1);
+	return (0);
 }
 
 /**
@@ -113,7 +113,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 		{
 			free(buffer);
 			free(tokens);
-			return (2);
+			_exit(1);
 		}
 		execute_cmd(tokens, av[0]);
 		free(buffer);

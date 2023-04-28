@@ -100,21 +100,22 @@ int main(int __attribute__((unused)) argc, char *av[])
 			_EOF(buffer);
 		if (*buffer == '\n')
 		{
+			free(buffer);
 			continue;
 		}
 		else
 		{
 			buffer[len - 1] = '\0';
 			tokens = make_tokens(buffer);
+			if (tokens[0] == NULL)
+			{
+				continue;
+			}
 			if (strcmp(tokens[0], "exit") == 0)
 			{
 				printf("exit");
 				free(buffer);
 				exit(1);
-			}
-			if (tokens[0] == NULL)
-			{
-				continue;
 			}
 			execute_cmd(tokens, av[0]);
 			free(buffer);

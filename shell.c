@@ -109,6 +109,8 @@ int main(int __attribute__((unused)) argc, char *av[])
 			tokens = make_tokens(buffer);
 			if (tokens[0] == NULL)
 			{
+				free(tokens);
+				free(buffer);
 				continue;
 			}
 			if (strcmp(tokens[0], "exit") == 0)

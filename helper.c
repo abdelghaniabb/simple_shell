@@ -1,3 +1,4 @@
+#include "main.h"
 /**
  * is_whitespace -check if there only space
  * @c: the string

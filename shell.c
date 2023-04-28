@@ -70,7 +70,6 @@ int execute_cmd(char **tokens, char *av)
 	else
 	{
 		wait(&status);
-		free(tokens);
 	}
 	return (1);
 }
@@ -95,7 +94,6 @@ int main(int __attribute__((unused)) argc, char *av[])
 		len = getline(&buffer, &buf_s, stdin);
 		if (len == -1)
 		{
-			free(buffer);
 			exit(0);
 		}
 		if (len == EOF)
@@ -109,12 +107,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 		{
 			buffer[len - 1] = '\0';
 			tokens = make_tokens(buffer);
-			if (execute_cmd(tokens, av[0]) == 0)
-			{
-				free(buffer);
-				free(tokens);
-				exit(1);
-			}
+			execute_cmd(tokens, av[0]);
 			fflush(stdin), buffer = NULL, buf_s = 0;
 			free(tokens);
 		}

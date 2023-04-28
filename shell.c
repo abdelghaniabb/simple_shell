@@ -112,7 +112,8 @@ int main(int __attribute__((unused)) argc, char *av[])
 		else
 		{
 			buffer[len - 1] = '\0';
-			execute_cmd(buffer, av[0]);
+			if (execute_cmd(buffer, av[0]) == 0)
+				exit(1);
 			fflush(stdin), buffer = NULL, buf_s = 0;
 		}
 	}

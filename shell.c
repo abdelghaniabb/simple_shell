@@ -57,20 +57,18 @@ int execute_cmd(char **tokens, char *av)
 	if (pid < 0)
 	{
 		perror(av);
-		exit(1);
+		exit(2);
 	}
 	else if (pid == 0)
 	{
-		if (execve(tokens[0], tokens, NULL) < 0)
+		if (execve(tokens[0], tokens, NULL) == -1)
 		{
 			perror(av);
-			return (2);
+			exit(2);
 		}
 	}
 	else
-	{
 		wait(&status);
-	}
 	return (0);
 }
 
@@ -113,7 +111,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 		{
 			free(buffer);
 			free(tokens);
-			return (0);
+			exit(0);
 		}
 		execute_cmd(tokens, av[0]);
 		free(buffer);

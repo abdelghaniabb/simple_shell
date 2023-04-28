@@ -49,10 +49,14 @@ void _EOF(char *buffer)
   * @av: value
   * @c: counter
   */
-void execute_cmd(char **tokens, char *av)
+void execute_cmd(char *tokens, char *av)
 {
 	pid_t pid;
 	int status;
+	char *l[2];
+
+	l[0] = tokens;
+	l[1] = NULL;
 
 	pid = fork();
 	if (pid < 0)
@@ -62,7 +66,7 @@ void execute_cmd(char **tokens, char *av)
 	}
 	else if (pid == 0)
 	{
-		if (execve(tokens[0], tokens, NULL) < 0)
+		if (execve(l[0], l, NULL) < 0)
 			perror(av), free(tokens), exit(8);
 	}
 	else
@@ -86,7 +90,6 @@ int main(int __attribute__((unused)) argc, char *av[])
 	char *buffer = NULL;
 	size_t buf_s = 0;
 	ssize_t len = 0;
-	char **tokens;
 
 	while (1)
 	{
@@ -100,13 +103,11 @@ int main(int __attribute__((unused)) argc, char *av[])
 		else
 		{
 			buffer[len - 1] = '\0';
-			tokens = make_tokens(buffer);
-			execute_cmd(tokens, av[0]);
+			execute_cmd(buffer, av[0]);
 			fflush(stdin), buffer = NULL, buf_s = 0;
 		}
 	}
 	if (len == -1)
 		return (EXIT_FAILURE);
-	free(tokens);
 	return (0);
 }

@@ -111,6 +111,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 		if (strcmp(tokens[0], "exit") == 0)
 		{
 			free(buffer);
+			free(tokens);
 			exit(1);
 		}
 		execute_cmd(tokens, av[0]);

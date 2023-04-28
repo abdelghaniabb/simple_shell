@@ -24,9 +24,8 @@ char **make_tokens(char *string)
 }
 
 /**
- * _EOF - A function that chaecks if buffer is EOF
- * @buffer: The pointer to the input string.
- * Return: Nothing
+ * _EOF - buffer is EOF
+ * @buffer: string.
  */
 void _EOF(char *buffer)
 {
@@ -57,7 +56,7 @@ int execute_cmd(char **tokens, char *av)
 	if (pid < 0)
 	{
 		perror("Error: ");
-		return (0);
+		exit(1);
 	}
 	else if (pid == 0)
 	{
@@ -94,21 +93,27 @@ int main(int __attribute__((unused)) argc, char *av[])
 		len = getline(&buffer, &buf_s, stdin);
 		if (len == -1)
 		{
+			free(buffer);
 			exit(0);
 		}
 		if (len == EOF)
 			_EOF(buffer);
 		if (*buffer == '\n')
 		{
-			free(buffer);
 			continue;
 		}
 		else
 		{
 			buffer[len - 1] = '\0';
+			if (strcmp(buffer, "exit") == 0)
+			{
+				free(buffer);
+				exit(1);
+			}
 			tokens = make_tokens(buffer);
 			execute_cmd(tokens, av[0]);
-			fflush(stdin), buffer = NULL, buf_s = 0;
+			free(buffer);
+			buffer = NULL, buf_s = 0;
 			free(tokens);
 		}
 	}

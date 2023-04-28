@@ -62,7 +62,7 @@ int execute_cmd(char **tokens, char *av)
 	}
 	else if (pid == 0)
 	{
-		if (execve(tokens[0], tokens, NULL) == -1)
+		if (execve(tokens[0], tokens, environ) == -1)
 		{
 			perror(av);
 			exit(2);
@@ -116,6 +116,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 		}
 		if (_strcmp(tokens[0], "env") == 0)
 		{
+			free(tokens);
 			print_env();
 			continue;
 		}
@@ -124,7 +125,5 @@ int main(int __attribute__((unused)) argc, char *av[])
 		buffer = NULL, buf_s = 0;
 		free(tokens);
 	}
-	free(buffer);
-	free(tokens);
 	return (0);
 }

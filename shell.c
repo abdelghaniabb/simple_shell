@@ -47,9 +47,9 @@ void _EOF(char *buffer)
   * execute_cmd - exeuc
   * @buffer: bfr
   * @av: value
-  * @c: counter
+  * Return 0 - 1
   */
-void execute_cmd(char *tokens, char *av)
+int execute_cmd(char *tokens, char *av)
 {
 	pid_t pid;
 	int status;
@@ -61,21 +61,22 @@ void execute_cmd(char *tokens, char *av)
 	pid = fork();
 	if (pid < 0)
 	{
-		perror("Error: "), free(tokens);
-		exit(8);
+		perror("Error: ");
+		return (0);
 	}
 	else if (pid == 0)
 	{
 		if (execve(l[0], l, NULL) < 0)
-			perror(av), free(tokens), exit(8);
+		{
+			perror(av);
+			return (0);
+		}
 	}
 	else
 	{
 		wait(&status);
-		if (status < 0)
-			free(tokens), exit(8);
-		free(tokens);
 	}
+	return (1);
 }
 
 /**
@@ -104,7 +105,10 @@ int main(int __attribute__((unused)) argc, char *av[])
 		if (len == EOF)
 			_EOF(buffer);
 		if (*buffer == '\n')
+		{
 			free(buffer);
+			continue;
+		}
 		else
 		{
 			buffer[len - 1] = '\0';

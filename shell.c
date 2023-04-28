@@ -103,7 +103,6 @@ int main(int __attribute__((unused)) argc, char *av[])
 		}
 		if (*buffer == ' ')
 		{
-			free(buffer);
 			continue;
 		}
 		buffer[len - 1] = '\0';

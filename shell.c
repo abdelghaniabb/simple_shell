@@ -113,7 +113,6 @@ int main(int __attribute__((unused)) argc, char *av[])
 			}
 			if (strcmp(tokens[0], "exit") == 0)
 			{
-				printf("exit");
 				free(buffer);
 				exit(1);
 			}
@@ -123,5 +122,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 			free(tokens);
 		}
 	}
+	free(buffer);
+	free(tokens);
 	return (0);
 }

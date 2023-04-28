@@ -12,7 +12,8 @@ char **make_tokens(char *string)
 		exit(1);
 	}
 	token = strtok(string, "\n\t\r ");
-
+	if (token == NULL)
+		return (NULL);
 	while (token != NULL)
 	{
 		tokens[i++] = token;

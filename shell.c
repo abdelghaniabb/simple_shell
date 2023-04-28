@@ -1,4 +1,29 @@
 #include "main.h"
+
+char **make_tokens(char *string)
+{
+	char **tokens;
+	char *token;
+	int i = 0;
+
+	tokens = malloc(sizeof(char) * 1024);
+	if (tokens == NULL)
+	{
+		perror("Error");
+		exit(1);
+	}
+	token = strtok(string, "\n\t\r ");
+
+	while (token != NULL)
+	{
+		tokens[i++] = token;
+		token = strtok(NULL, "\n\t\r ");
+	}
+	tokens[i] = NULL;
+
+	return (tokens);
+}
+
 /**
  * _EOF - A function that chaecks if buffer is EOF
  * @buffer: The pointer to the input string.
@@ -24,30 +49,28 @@ void _EOF(char *buffer)
   * @av: value
   * @c: counter
   */
-void execute_cmd(char *buffer, char *av, int __attribute__((unused)) c)
+void execute_cmd(char **tokens, char *av)
 {
-	char *list[2];
 	pid_t pid;
 	int status;
-
+	
 	pid = fork();
 	if (pid < 0)
 	{
-		perror("Error: "), free(buffer);
+		perror("Error: "), free(tokens);
 		exit(8);
 	}
 	else if (pid == 0)
 	{
-		list[0] = buffer, list[1] = NULL;
-		if (execve(list[0], list, NULL) < 0)
-			perror(av), free(buffer), exit(8);
+		if (execve(tokens[0], tokens, NULL) < 0)
+			perror(av), free(tokens), exit(8);
 	}
 	else
 	{
 		wait(&status);
 		if (status < 0)
-			free(buffer), exit(8);
-		free(buffer);
+			free(tokens), exit(8);
+		free(tokens);
 	}
 }
 
@@ -63,7 +86,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 	char *buffer = NULL;
 	size_t buf_s = 0;
 	ssize_t len = 0;
-	int counter = 0;
+	char **tokens;
 
 	while (1)
 	{
@@ -77,12 +100,13 @@ int main(int __attribute__((unused)) argc, char *av[])
 		else
 		{
 			buffer[len - 1] = '\0';
-			counter++;
-			execute_cmd(buffer, av[0], counter);
+			tokens = make_tokens(buffer);
+			execute_cmd(tokens, av[0]);
 			fflush(stdin), buffer = NULL, buf_s = 0;
 		}
 	}
 	if (len == -1)
 		return (EXIT_FAILURE);
+	free(tokens);
 	return (0);
 }

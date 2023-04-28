@@ -116,8 +116,6 @@ int main(int __attribute__((unused)) argc, char *av[])
 		}
 		if (_strcmp(tokens[0], "env") == 0)
 		{
-			free(buffer);
-			free(tokens);
 			print_env();
 			continue;
 		}

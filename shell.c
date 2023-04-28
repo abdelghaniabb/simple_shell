@@ -96,6 +96,11 @@ int main(int __attribute__((unused)) argc, char *av[])
 		if (isatty(0))
 			write(STDOUT_FILENO, "#meisfun$ ", 9);
 		len = getline(&buffer, &buf_s, stdin);
+		if (len == -1)
+		{
+			free(buffer);
+			exit(0);
+		}
 		if (len == EOF)
 			_EOF(buffer);
 		if (*buffer == '\n')
@@ -107,7 +112,5 @@ int main(int __attribute__((unused)) argc, char *av[])
 			fflush(stdin), buffer = NULL, buf_s = 0;
 		}
 	}
-	if (len == -1)
-		return (EXIT_FAILURE);
 	return (0);
 }

@@ -111,6 +111,8 @@ int main(int __attribute__((unused)) argc, char *av[])
 				exit(1);
 			}
 			tokens = make_tokens(buffer);
+			if (tokens[0] == NULL)
+				continue;
 			execute_cmd(tokens, av[0]);
 			free(buffer);
 			buffer = NULL, buf_s = 0;

@@ -114,7 +114,8 @@ int main(int __attribute__((unused)) argc, char *av[])
 			free(tokens);
 			exit(0);
 		}
-		execute_cmd(tokens, av[0]);
+		if (execute_cmd(tokens, av[0]) == 0)
+			exit(2);
 		free(buffer);
 		buffer = NULL, buf_s = 0;
 		free(tokens);

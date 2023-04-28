@@ -66,10 +66,10 @@ char *_getenv(char *name)
  */
 char *search_command(char *command, char *fullpath, char *path)
 {
-	unsigned int command_length, path_length;
+	unsigned int command_len, path_len;
 	char *path_copy, *token;
 
-	command_length = _strlen(command);
+	command_len = _strlen(command);
 
 	path_copy = malloc(sizeof(char) * _strlen(path) + 1);
 	_strcpy(path_copy, path);
@@ -77,16 +77,15 @@ char *search_command(char *command, char *fullpath, char *path)
 
 	while (token != NULL)
 	{
-		path_length = _strlen(token);
-		fullpath = malloc(sizeof(char) * (path_length + command_length) + 2);
+		path_len = _strlen(token);
+		fullpath = malloc(sizeof(char) * (path_len + command_len) + 2);
 		if (fullpath == NULL)
-		{
 			return (NULL);
-		}
+
 		_strcpy(fullpath, token);
-		fullpath[path_length] = '/';
-		_strcpy(fullpath + path_length + 1, command);
-		fullpath[path_length + command_length + 1] = '\0';
+		fullpath[path_len] = '/';
+		_strcpy(fullpath + path_len + 1, command);
+		fullpath[path_len + command_len + 1] = '\0';
 		if (access(fullpath, X_OK) != 0)
 		{
 			free(fullpath);

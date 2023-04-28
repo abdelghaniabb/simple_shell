@@ -90,6 +90,8 @@ int main(int __attribute__((unused)) argc, char *av[])
 
 	while (1)
 	{
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "#cisfun$ ", 9);
 		len = getline(&buffer, &buf_s, stdin);
 		if (len == EOF)
 			_EOF(buffer);

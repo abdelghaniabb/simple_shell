@@ -112,7 +112,11 @@ int main(int __attribute__((unused)) argc, char *av[])
 			}
 			tokens = make_tokens(buffer);
 			if (tokens[0] == NULL)
+			{
+				free(tokens);
+				free(buffer);
 				continue;
+			}
 			execute_cmd(tokens, av[0]);
 			free(buffer);
 			buffer = NULL, buf_s = 0;

@@ -96,6 +96,8 @@ int main(int __attribute__((unused)) argc, char *av[])
 			free(buffer);
 			exit(0);
 		}
+		if (len == EOF)
+			_EOF(buffer);
 		if (*buffer == '\n')
 		{
 			free(buffer);

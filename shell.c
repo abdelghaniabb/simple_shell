@@ -1,5 +1,6 @@
 #include "main.h"
 
+
 char **make_tokens(char *string)
 {
 	char **tokens;
@@ -107,11 +108,18 @@ int main(int __attribute__((unused)) argc, char *av[])
 		if (is_whitespace(buffer) == 1)
 			continue;
 		tokens = make_tokens(buffer);
-		if (strcmp(tokens[0], "exit") == 0)
+		if (_strcmp(tokens[0], "exit") == 0)
 		{
 			free(buffer);
 			free(tokens);
 			exit(0);
+		}
+		if (_strcmp(tokens[0], "env") == 0)
+		{
+			free(buffer);
+			free(tokens);
+			print_env();
+			continue;
 		}
 		execute_cmd(tokens, av[0]);
 		free(buffer);

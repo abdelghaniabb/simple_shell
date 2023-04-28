@@ -113,7 +113,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 		{
 			free(buffer);
 			free(tokens);
-			_exit(1);
+			return (0);
 		}
 		execute_cmd(tokens, av[0]);
 		free(buffer);

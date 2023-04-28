@@ -39,7 +39,7 @@ void _EOF(char *buffer)
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, "\n", 1);
 	free(buffer);
-	exit(EXIT_SUCCESS);
+	exit(0);
 }
 
 /**
@@ -112,7 +112,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 		{
 			free(buffer);
 			free(tokens);
-			exit(1);
+			exit(0);
 		}
 		execute_cmd(tokens, av[0]);
 		free(buffer);

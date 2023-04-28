@@ -96,33 +96,26 @@ int main(int __attribute__((unused)) argc, char *av[])
 			free(buffer);
 			exit(0);
 		}
-		if (len == EOF)
-			_EOF(buffer);
 		if (*buffer == '\n')
 		{
 			free(buffer);
 			continue;
 		}
-		else
+		buffer[len - 1] = '\0';
+		tokens = make_tokens(buffer);
+		if (tokens[0] == NULL)
 		{
-			buffer[len - 1] = '\0';
-			tokens = make_tokens(buffer);
-			if (tokens[0] == NULL)
-			{
-				free(tokens);
-				free(buffer);
-				continue;
-			}
-			if (strcmp(tokens[0], "exit") == 0)
-			{
-				free(buffer);
-				exit(1);
-			}
-			execute_cmd(tokens, av[0]);
-			free(buffer);
-			buffer = NULL, buf_s = 0;
-			free(tokens);
+			continue;
 		}
+		if (strcmp(tokens[0], "exit") == 0)
+		{
+			free(buffer);
+			exit(1);
+		}
+		execute_cmd(tokens, av[0]);
+		free(buffer);
+		buffer = NULL, buf_s = 0;
+		free(tokens);
 	}
 	free(buffer);
 	free(tokens);

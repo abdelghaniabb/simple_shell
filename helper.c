@@ -1,5 +1,8 @@
-
-
+/**
+ * is_whitespace -check if there only space
+ * @c: the string
+ * Return: 1 or 0
+ */
 int is_whitespace(char *c)
 {
 	int i;

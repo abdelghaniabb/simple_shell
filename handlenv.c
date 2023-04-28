@@ -10,7 +10,7 @@ int env_name_cmp(char *env, char *name)
 {
 	int i = 0;
 
-	while(env[i] != '=')
+	while (env[i] != '=')
 	{
 		if (env[i] != name[i])
 			return (0);
@@ -18,7 +18,10 @@ int env_name_cmp(char *env, char *name)
 	}
 	return (i + 1);
 }
-
+/**
+ * print_env - print env
+ * Return: void
+ */
 void print_env(void)
 {
 	size_t i = 0, len = 0;
@@ -31,13 +34,17 @@ void print_env(void)
 		i++;
 	}
 }
-
+/**
+ * _getenv - print env
+ * @name: env name
+ * Return: char
+ */
 char *_getenv(char *name)
 {
 	char *result = NULL;
 	int i = 0, mov_to = 0;
 
-	while(environ[i] != NULL)
+	while (environ[i] != NULL)
 	{
 		mov_to = env_name_cmp(environ[i], name);
 
@@ -50,19 +57,25 @@ char *_getenv(char *name)
 	}
 	return (result + mov_to);
 }
-
+/**
+ * search_command - search command
+ * @command: the command
+ * @fullpath: the path
+ * @path: the path
+ * Return: char
+ */
 char *search_command(char *command, char *fullpath, char *path)
 {
 	unsigned int command_length, path_length;
 	char *path_copy, *token;
 
 	command_length = _strlen(command);
-	
+
 	path_copy = malloc(sizeof(char) * _strlen(path) + 1);
 	_strcpy(path_copy, path);
 	token = strtok(path_copy, ":");
 
-	while(token != NULL)
+	while (token != NULL)
 	{
 		path_length = _strlen(token);
 		fullpath = malloc(sizeof(char) * (path_length + command_length) + 2);
@@ -81,7 +94,7 @@ char *search_command(char *command, char *fullpath, char *path)
 			token = strtok(NULL, ":");
 		}
 		else
-			break;	
+			break;
 	}
 	free(path_copy);
 	return (fullpath);

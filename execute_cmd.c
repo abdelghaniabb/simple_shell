@@ -1,9 +1,10 @@
 #include "main.h"
 /**
   * execute_cmd - exeuc
-  * @buffer: bfr
+  * @tokens: token
   * @av: value
-  * Return 0 - 1
+  * @path: the path
+  * Return: 0 - 1
   */
 int execute_cmd(char **tokens, char *av, char *path)
 {
@@ -26,5 +27,5 @@ int execute_cmd(char **tokens, char *av, char *path)
 	}
 	else
 		wait(&status);
-	return WEXITSTATUS(status);
+	return (WEXITSTATUS(status));
 }

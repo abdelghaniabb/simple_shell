@@ -1,5 +1,14 @@
 #include "main.h"
 
+void p_error(char *av, char *number)
+{
+	write(STDERR_FILENO, av, _strlen(av) + 1);
+	write(STDERR_FILENO, ": 1: exit: Illegal number: ", _strlen(": 1: exit: Illegal number: ") + 1);
+	write(STDERR_FILENO, number, _strlen(number));
+	write(STDERR_FILENO, "\n", 1);
+}
+
+
 /**
   * main - entry point to shell
   * @argc: arg number
@@ -34,6 +43,11 @@ int main(int __attribute__((unused)) argc, char *av[])
 		if (_strcmp(tokens[0], "exit") == 0)
 		{
                     st = atoi(tokens[1]);
+                    if (st <= 0)
+                    {
+                    	p_error(av[0], tokens[1]);
+                    	st = 2;
+                    }
 		   free(buffer), free(tokens), exit(st);
 		}
 		if (_strcmp(tokens[0], "env") == 0)

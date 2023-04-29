@@ -2,8 +2,8 @@
 
 void p_error(char *av, char *number)
 {
-	write(STDERR_FILENO, av, _strlen(av) + 1);
-	write(STDERR_FILENO, ": 1: exit: Illegal number: ", _strlen(": 1: exit: Illegal number: ") + 1);
+	write(STDERR_FILENO, av, _strlen(av));
+	write(STDERR_FILENO, ": 1: exit: Illegal number: ", _strlen(": 1: exit: Illegal number: "));
 	write(STDERR_FILENO, number, _strlen(number));
 	write(STDERR_FILENO, "\n", 1);
 }

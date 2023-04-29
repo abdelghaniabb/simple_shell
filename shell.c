@@ -6,6 +6,51 @@
   * @av: arg value
   * Return: -1 | 1
   */
+/**
+ * set_env - set or update the value of an environment variable
+ * @tokens: an array of command arguments
+ *
+ * Return: 0 on success, -1 on failure
+ */
+int set_env(char **tokens)
+{
+    if (tokens[1] == NULL || tokens[2] == NULL)
+    {
+        fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+        return -1;
+    }
+
+    if (setenv(tokens[1], tokens[2], 1) == -1)
+    {
+        perror("setenv");
+        return -1;
+    }
+
+    return 0;
+}
+
+/**
+ * unset_env - remove an environment variable
+ * @tokens: an array of command arguments
+ *
+ * Return: 0 on success, -1 on failure
+ */
+int unset_env(char **tokens)
+{
+    if (tokens[1] == NULL)
+    {
+        fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+        return -1;
+    }
+
+    if (unsetenv(tokens[1]) == -1)
+    {
+        perror("unsetenv");
+        return -1;
+    }
+
+    return 0;
+}
 
 int main(int __attribute__((unused)) argc, char *av[])
 {
@@ -15,6 +60,17 @@ int main(int __attribute__((unused)) argc, char *av[])
 
 	while (1)
 	{
+		if (strcmp(tokens[0], "setenv") == 0)
+{
+    set_env(tokens);
+    continue;
+}
+else if (strcmp(tokens[0], "unsetenv") == 0)
+{
+    unset_env(tokens);
+    continue;
+}
+
 		if (isatty(0))
 			write(STDOUT_FILENO, "#meisfun$ ", 9);
 		len = getline(&buffer, &buf_s, stdin);

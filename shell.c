@@ -42,15 +42,6 @@ int main(int __attribute__((unused)) argc, char *av[])
 		tokens = make_tokens(buffer);
 		if (_strcmp(tokens[0], "exit") == 0)
 		{
-		if (tokens[1] != NULL)
-		{
-                    st = atoi(tokens[1]);
-                    if (st <= 0)
-                    {
-                    	p_error(av[0], tokens[1]);
-                    	st = 2;
-                    }
-                  }
 		   free(buffer), free(tokens), exit(st);
 		}
 		if (_strcmp(tokens[0], "env") == 0)

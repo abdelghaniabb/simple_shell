@@ -19,4 +19,5 @@ void print_env(void);
 char **make_tokens(char *string);
 void _EOF(char *buffer);
 int execute_cmd(char **tokens, char *av, char *path);
+int _atoi(char *s);
 #endif

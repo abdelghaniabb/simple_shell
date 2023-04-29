@@ -34,8 +34,6 @@ int main(int __attribute__((unused)) argc, char *av[])
 		if (_strcmp(tokens[0], "exit") == 0)
 		{
                     st = atoi(tokens[1]);
-                    if (st <= 0)
-                    	st = 2;
 		   free(buffer), free(tokens), exit(st);
 		}
 		if (_strcmp(tokens[0], "env") == 0)

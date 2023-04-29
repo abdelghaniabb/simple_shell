@@ -11,6 +11,19 @@
  * @tokens: list of command arguments
  * Return: 0 on success, -1 on error
  */
+#include "main.h"
+
+/**
+  * main - entry point to shell
+  * @argc: arg number
+  * @av: arg value
+  * Return: -1 | 1
+  */
+/**
+ * change_directory - change current working directory
+ * @tokens: list of command arguments
+ * Return: 0 on success, -1 on error
+ */
 int change_directory(char **tokens)
 {
 	char *new_path = NULL;
@@ -88,21 +101,11 @@ int main(int __attribute__((unused)) argc, char *av[])
 				setenv("PWD", getenv("OLDPWD"), 1);
 				printf("%s\n", getenv("PWD"));
 			}
-			else if (_strcmp(tokens[0], "cd") == 0)
-{
-	if (change_directory(tokens) == -1)
-		st = 2;
-	continue;
-}
 			else
 			{
-				if (chdir(tokens[1]) != 0)
-					perror("hsh");
-				else
-				{
-					setenv("OLDPWD", getenv("PWD"), 1);
-					setenv("PWD", getcwd(NULL, 0), 1);
-				}
+				if (change_directory(tokens) == -1)
+					st = 2;
+				continue;
 			}
 			free(buffer), buffer = NULL, buf_s = 0, free(tokens);
 			continue;
@@ -116,6 +119,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 		buffer = NULL, buf_s = 0, free(tokens);
 		if (flag == 1)
 			free(path);
+
 	}
 	return (0);
 }

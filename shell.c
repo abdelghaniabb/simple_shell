@@ -6,6 +6,43 @@
   * @av: arg value
   * Return: -1 | 1
   */
+/**
+ * change_directory - change current working directory
+ * @tokens: list of command arguments
+ * Return: 0 on success, -1 on error
+ */
+int change_directory(char **tokens)
+{
+	char *new_path = NULL;
+
+	if (tokens[1] == NULL || _strcmp(tokens[1], "~") == 0)
+		new_path = _getenv("HOME");
+	else if (_strcmp(tokens[1], "-") == 0)
+	{
+		new_path = _getenv("OLDPWD");
+		write(STDOUT_FILENO, new_path, _strlen(new_path));
+		write(STDOUT_FILENO, "\n", 1);
+	}
+	else
+		new_path = tokens[1];
+
+	if (new_path == NULL)
+	{
+		perror("cd");
+		return (-1);
+	}
+
+	if (chdir(new_path) != 0)
+	{
+		perror("cd");
+		return (-1);
+	}
+
+	setenv("OLDPWD", _getenv("PWD"), 1);
+	setenv("PWD", getcwd(NULL, 0), 1);
+
+	return (0);
+}
 
 int main(int __attribute__((unused)) argc, char *av[])
 {
@@ -51,6 +88,12 @@ int main(int __attribute__((unused)) argc, char *av[])
 				setenv("PWD", getenv("OLDPWD"), 1);
 				printf("%s\n", getenv("PWD"));
 			}
+			else if (_strcmp(tokens[0], "cd") == 0)
+{
+	if (change_directory(tokens) == -1)
+		st = 2;
+	continue;
+}
 			else
 			{
 				if (chdir(tokens[1]) != 0)

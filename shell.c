@@ -39,6 +39,8 @@ int main(int __attribute__((unused)) argc, char *av[])
 		buffer[len - 1] = '\0';
 		if (is_whitespace(buffer) == 1)
 			continue;
+		
+		execute_commands(buffer, av);
 		tokens = make_tokens(buffer);
 		
 		if (_strcmp(tokens[0], "exit") == 0)
@@ -94,6 +96,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 			if (flag == 1)
 				free(path);
 		}
+		
 	}
 	return (0);
 }

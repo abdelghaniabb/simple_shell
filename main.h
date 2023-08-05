@@ -22,4 +22,5 @@ int execute_cmd(char **tokens, char *av, char *path);
 int _atoi(char *s);
 int cd_builtin(char **tokens);
 void p_error(char *av, char *number);
+void execute_commands(char *commands, char *av[]);
 #endif

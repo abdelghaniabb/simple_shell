@@ -18,7 +18,7 @@ void p_error(char *av, char *number)
 
 int main(int __attribute__((unused)) argc, char *av[])
 {
-	char *buffer = NULL, *path_env, *path, **tokens, st = 0;
+	char *buffer = NULL, *path_env, *path, **tokens /*,st = 0*/;
 	size_t buf_s = 0;
 	int flag = 0, len = 0, exit_status = 0;
 
@@ -63,7 +63,6 @@ int main(int __attribute__((unused)) argc, char *av[])
 			free(buffer);
 			free(tokens);
 			exit(exit_status);
-			exit(st);
 		}
 		
 		if (_strcmp(tokens[0], "env") == 0)
@@ -76,8 +75,10 @@ int main(int __attribute__((unused)) argc, char *av[])
 			path = tokens[0];
 		else
 			flag = 1;
-		st = execute_cmd(tokens, av[0], path), free(buffer);
+		/*st = */execute_cmd(tokens, av[0], path);
+		free(buffer);
 		buffer = NULL, buf_s = 0, free(tokens);
+		
 		if (flag == 1)
 			free(path);
 	}

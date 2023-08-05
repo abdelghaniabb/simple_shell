@@ -20,7 +20,7 @@ int main(int __attribute__((unused)) argc, char *av[])
 {
 	char *buffer = NULL, *path_env, *path, **tokens, st = 0;
 	size_t buf_s = 0;
-	int flag = 0, len = 0;
+	int flag = 0, len = 0, exit_status = 0;
 
 	while (1)
 	{
@@ -40,10 +40,32 @@ int main(int __attribute__((unused)) argc, char *av[])
 		if (is_whitespace(buffer) == 1)
 			continue;
 		tokens = make_tokens(buffer);
+		
 		if (_strcmp(tokens[0], "exit") == 0)
 		{
-		   free(buffer), free(tokens), exit(st);
+			/* Handle the exit command with an optional status argument*/
+			if (tokens[1] != NULL)
+			{
+				/* Convert the status argument to an integer*/
+				exit_status = atoi(tokens[1]);
+				if (exit_status == 0 && tokens[1][0] != '0')
+				{
+					/* If atoi fails to convert the argument, print an error and continue*/
+					p_error(av[0], tokens[1]);
+					free(buffer);
+					buffer = NULL;
+					buf_s = 0;
+					free(tokens);
+					continue;
+				}
+			}
+			/* Free resources and exit with the specified status*/
+			free(buffer);
+			free(tokens);
+			exit(exit_status);
+			exit(st);
 		}
+		
 		if (_strcmp(tokens[0], "env") == 0)
 		{
 			free(tokens), print_env();

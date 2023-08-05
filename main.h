@@ -20,4 +20,6 @@ char **make_tokens(char *string);
 void _EOF(char *buffer);
 int execute_cmd(char **tokens, char *av, char *path);
 int _atoi(char *s);
+int cd_builtin(char **tokens);
+void p_error(char *av, char *number);
 #endif

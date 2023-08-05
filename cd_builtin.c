@@ -21,7 +21,7 @@ int cd_builtin(char **tokens)
         char *prev_dir = _getenv("OLDPWD");
         if (prev_dir == NULL)
         {
-            p_error(tokens[0], "No previous directory");
+            fprintf(stderr, "./hsh: 1: cd: can't cd to %s\n", tokens[1]);
             return 0;
         }
         new_dir = prev_dir;
@@ -36,7 +36,7 @@ int cd_builtin(char **tokens)
     {
         if (chdir(new_dir) == -1)
         {
-            p_error(tokens[0], "Failed to change directory");
+            fprintf(stderr, "./hsh: 1: cd: can't cd to %s\n", tokens[1]);
         }
         else
         {
@@ -49,7 +49,7 @@ int cd_builtin(char **tokens)
     }
     else
     {
-        p_error(tokens[0], "Failed to get current directory");
+        fprintf(stderr, "./hsh: 1: cd: can't get current directory\n");
     }
 
     return 0;
